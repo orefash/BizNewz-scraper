@@ -12,7 +12,7 @@ Jinja2==2.8
 mysql-connector-python==8.0.18
 pylint==1.5.4
 PyMySQL==0.9.3
-pyOpenSSL==16.0.0
+pyOpenSSL==17.5.0
 pytest==2.9.2
 python-dateutil==2.5.3
 requests==2.11.1
