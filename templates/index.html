@@ -73,16 +73,14 @@
 			<h1 id="fh5co-logo" class="text-primary"><a href="index.html">BizNewz.NG</a></h1>
 			<div class="mx-3 mb-3">
 				<label for="search">Search By Company: </label>
-				<input name="autocomplete" type="text" id="autocomplete" class="form-control input-lg"/>
+				<input name="autocomplete" type="tex
+				t" id="autocomplete" class="form-control input-lg"/>
 			</div>
 			<nav id="fh5co-main-menu" role="navigation">
-				<!-- <ul>
-					<li><a href="index.html">Home</a></li>
-					<li class="fh5co-active"><a href="blog.html">Blog</a></li>
-					<li><a href="portfolio.html">Portfolio</a></li>
-					<li><a href="about.html">About</a></li>
-					<li><a href="contact.html">Contact</a></li>
-				</ul> -->
+				<ul>
+					<li><a href="">Nigeria</a></li>
+					<li class="fh5co-active"><a href="blog.html">Rest of the world</a></li>
+				</ul>
 			</nav>
 
 			<div class="fh5co-footer">
@@ -133,7 +131,7 @@
 					</div>
 					<div class="col-md-4 col-sm-6 col-padding animate-box" data-animate-effect="fadeInLeft">
 						<div class="blog-entry">
-							<a href="#" class="blog-img"><img src="images/img-2.jpg" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
+							<a href="#" class="blog-img"><img src="{{ url_for('static', filename='images/img-1.jpg') }}" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
 							<div class="desc">
 								<h3><a href="#">Inspirational Website</a></h3>
 								<span><small>by Admin </small> / <small> Web Design </small> / <small> <i class="icon-comment"></i> 14</small></span>
@@ -144,7 +142,7 @@
 					</div>
 					<div class="col-md-4 col-sm-6 col-padding animate-box" data-animate-effect="fadeInLeft">
 						<div class="blog-entry">
-							<a href="#" class="blog-img"><img src="images/img-3.jpg" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
+							<a href="#" class="blog-img"><img src="{{ url_for('static', filename='images/img-1.jpg') }}" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
 							<div class="desc">
 								<h3><a href="#">Global transactions get easier with Firstbank’s Card Offerings</a></h3>
 								<span><small>by Admin </small> / <small> Web Design </small> / <small> <i class="icon-comment"></i> 14</small></span>

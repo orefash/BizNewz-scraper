@@ -1,15 +1,29 @@
-from flask import Flask, jsonify, flash, redirect, render_template, url_for
+from flask import Flask, jsonify, flash, redirect, render_template, url_for, request
 from nairametrics_parser import Nairametrics
 from punch_parser import PunchNG
-from db_config import mysql
+
+from apscheduler.schedulers.background import BackgroundScheduler
+# from db_config import mysql
 import pymysql
 
+from datetime import date, datetime
+
 app = Flask(__name__)
+
+def update_news():
+    ar = Nairametrics()
+    punch = PunchNG()
+
+    print("News Updated: ", datetime.now())
+
+sched = BackgroundScheduler(daemon=True)
+sched.add_job(update_news,'interval',minutes=120)
+sched.start()
 
 @app.route('/fetch-news')
 def get_news():
     print("Getting news....")
-    # ar = Nairametrics()
+    ar = Nairametrics()
     punch = PunchNG()
 
     return "We are done"
@@ -22,29 +36,33 @@ def home():
 
 @app.route('/articles')
 def get_articles():
-    try:
-        conn = mysql.connect()
-        cur = conn.cursor(pymysql.cursors.DictCursor)
-        cur.execute("SELECT * from news_articles")
-        rows = cur.fetchall()
-        resp = jsonify(rows)
-        resp.status_code = 200
-        return resp
-    except Exception as e:
-        print("Exception", e)
+    
+    from db_helper import get_article_data
+    resp = get_article_data()
+
+    return jsonify(resp)
+
+
+
+@app.route('/articles/')
+def get_m_articles():
+
+    source = request.args.get('source')
+    dateFrom = request.args.get('from')
+    dateTo = request.args.get('to')
+    
+    from db_helper import get_articles
+    resp = get_articles(source, dateFrom, dateTo)
+
+    return jsonify(resp)
 
 @app.route('/articles/sources')
 def get_sources():
-    try:
-        conn = mysql.connect()
-        cur = conn.cursor(pymysql.cursors.DictCursor)
-        cur.execute("SELECT DISTINCT(source) from news_articles")
-        rows = cur.fetchall()
-        resp = jsonify(rows)
-        resp.status_code = 200
-        return resp
-    except Exception as e:
-        print("Exception", e)
+    
+    from db_helper import get_sources
+    resp = get_sources()
+
+    return jsonify(resp)
 
 if __name__ == '__main__':
     app.run()

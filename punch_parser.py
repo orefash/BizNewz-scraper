@@ -5,7 +5,7 @@ from dateutil.parser import parse
 
 class PunchNG:
     base_url = "https://punchng.com/topics/business/"
-    pages = 1
+    pages = 15
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'} # This is chrome, you can set whatever browser you like
 
 
@@ -50,10 +50,13 @@ class PunchNG:
     def parse_articles(self):
         articles_group = []
         for i in range(1,(self.pages+1)):
-            soup = self.get_page_soup(i)
-            articles = self.get_article_from_page(soup)
+            try:
+                soup = self.get_page_soup(i)
+                articles = self.get_article_from_page(soup)
 
-            articles_group = articles_group + articles
+                articles_group = articles_group + articles
+            except:
+                pass
         return articles_group
 
     def store_articles(self, articles):
