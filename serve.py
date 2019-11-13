@@ -34,7 +34,7 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/articles')
+@app.route('/articles', methods=['GET'])
 def get_articles():
     
     from db_helper import get_article_data
@@ -44,7 +44,7 @@ def get_articles():
 
 
 
-@app.route('/articles/')
+@app.route('/articles/', methods=['GET'])
 def get_m_articles():
 
     source = request.args.get('source')
@@ -56,7 +56,7 @@ def get_m_articles():
 
     return jsonify(resp)
 
-@app.route('/articles/sources')
+@app.route('/articles/sources', methods=['GET'])
 def get_sources():
     
     from db_helper import get_sources
