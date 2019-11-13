@@ -21,7 +21,7 @@ Flask-Cors==2.1.2
 Flask-Migrate==2.5.2
 Flask-MySQL==1.4.0
 Flask-SQLAlchemy==2.4.1
-gunicorn==20.0.0
+# gunicorn==20.0.0
 jedi==0.9.0
 Jinja2==2.8
 joblib==0.13.2
