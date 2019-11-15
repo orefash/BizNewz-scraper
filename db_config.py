@@ -1,32 +1,34 @@
 
-import mysql.connector
 
-from serve import app
 from flaskext.mysql import MySQL
-# mysql = MySQL()
+import psycopg2
 
-# MySQL configurations
-# app.config['MYSQL_DATABASE_USER'] = 'root'
-# app.config['MYSQL_DATABASE_PASSWORD'] = 'password'
-# app.config['MYSQL_DATABASE_DB'] = 'cnews_db'
-# app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-# mysql.init_app(app)
-
-mydb = mysql.connector.connect(
-    host = "localhost",
-    user = "root",
-    password = "password",
-    # database = "cnews_db"
-    database = "sampledb"
+def mysql_connect():
+    mydb = mysql.connector.connect(
+        host = "localhost",
+        user = "root",
+        password = "password",
+        # database = "cnews_db"
+        database = "sampledb"
 
     )
+    return mydb
 
-# class DBConnection:
+def postgres_connect():
+    	
+    # conn = psycopg2.connect(
+    #     host="localhost",
+    #     database="test2",
+    #      user="postgres",
+    #       password="admin"
+    # )
 
-#     mydb = mysql.connector.connect(
-#     host = "localhost",
-#     user = "root",
-#     password = "password",
-#     database = "cnews_db"
+    conn = psycopg2.connect(
+        host="ec2-54-75-245-196.eu-west-1.compute.amazonaws.com",
+        database="db2ap032l7mp3t",
+         user="jazzyzfqzynrrx",
+          password="670a46230b9e682e3afafb134bf16421c01acb4f2d05183f0018a97fbc0d4724"
+    )
 
-#     )
+    return conn
+

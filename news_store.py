@@ -1,4 +1,5 @@
 
+from db_config import mysql_connect, postgres_connect
 
 class NewsBean:
     from datetime import datetime
@@ -12,18 +13,6 @@ class NewsBean:
     img_url=''
     content=''
     entry_date = datetime.today().strftime('%Y-%m-%d')
-
-class DBConnection:
-    import mysql.connector
-
-    mydb = mysql.connector.connect(
-    host = "localhost",
-    user = "root",
-    passwd = "password",
-    database = "cnews_db"
-
-    )
-
 
 class NewsDAO:
 
@@ -50,23 +39,35 @@ class NewsDAO:
 
     def check_article(self,title):
         exists = False
-        mydb = DBConnection().mydb
-#         print(mydb)
-        cursor = mydb.cursor()
-        query = "select * from news_articles where title='"+title+"'"
+        mydb = None
+        cursor = None
 
-        ## getting records from the table
-        cursor.execute(query)
+        try:
 
-        ## fetching all records from the 'cursor' object
-        records = cursor.fetchall()
+            # mydb = mysql_connnect()
+            mydb = postgres_connect()
+    #         print(mydb)
+            cursor = mydb.cursor()
+            query = "select * from news_articles where title='"+title+"'"
 
-        if(len(records)>0):
-            exists = True
+            ## getting records from the table
+            cursor.execute(query)
+
+            ## fetching all records from the 'cursor' object
+            records = cursor.fetchall()
+
+            if(len(records)>0):
+                exists = True
+        except Exception as e:
+            print("Exception", e)
+        finally:
+            if(mydb):
+                cursor.close()
+                mydb.close()
         return exists
 
     def addNewsArticle(self, newsBean = NewsBean()):
-
+        status = -1
         check_status = False
         try:
             check_status = self.check_article(newsBean.title)
@@ -74,18 +75,34 @@ class NewsDAO:
             check_status = False
 
         if check_status is False:
-            mydb = DBConnection().mydb
-            mycursor = mydb.cursor()
-            query = "insert into news_articles values (0,%s,%s, %s,%s,%s,%s,%s,%s)"
-            newsBean.stock = self.check_stock(newsBean.title)
-            val = (newsBean.title, newsBean.source, newsBean.publish_date, newsBean.img_url, newsBean.content, newsBean.url, newsBean.stock, newsBean.entry_date)
-    #         print("Val: ",val)
-            mycursor.execute(query, val)
-            mydb.commit()
-            print(mycursor.rowcount, "records Inserted")
-            status = 1
-            if mycursor.rowcount > 0:
-                status = 0
+
+            mydb = None
+            mycursor = None
+            
+            try:
+                # mydb = mysql_connnect()
+                
+                mydb = postgres_connect()
+                mycursor = mydb.cursor()
+                query = "insert into news_articles values (DEFAULT,%s,%s,%s,%s,%s,%s,%s,%s)"
+                newsBean.stock = ""
+                # newsBean.stock = self.check_stock(newsBean.title)
+                val = (newsBean.title, newsBean.source, newsBean.publish_date, newsBean.img_url, newsBean.content, newsBean.url, newsBean.stock, newsBean.entry_date)
+        #         print("Val: ",val)
+                mycursor.execute(query, val)
+                mydb.commit()
+                print(mycursor.rowcount, "records Inserted")
+                status = 1
+                if mycursor.rowcount > 0:
+                    status = 0
+            except Exception as e:
+                print("Exception", e)
+            finally:
+                if(mydb):
+                    mycursor.close()
+                    mydb.close()
+
+
         else:
             status = -1
 
@@ -93,17 +110,28 @@ class NewsDAO:
 
     def getStocks(self):
         stocks = []
-        mydb = DBConnection().mydb
-        mycursor = mydb.cursor()
-        mycursor.execute("select stock_id, company_name from stock_universe")
-        myResult = mycursor.fetchall()
-        for x in myResult:
-            company = x[1]
-            split = company.split(' ')
-            if len(split) > 2:
-                company = split[0] + ' ' + split[1]
-            data = (x[0], company.lower().replace('plc.', '').replace('plc', '').replace('.', ''))
-            stocks.append(data)
+        mydb = None
+        mycursor = None
+
+        try:
+            # mydb = mysql_connnect()
+            mydb = postgres_connect()
+            mycursor = mydb.cursor()
+            mycursor.execute("select stock_id, company_name from stock_universe")
+            myResult = mycursor.fetchall()
+            for x in myResult:
+                company = x[1]
+                split = company.split(' ')
+                if len(split) > 2:
+                    company = split[0] + ' ' + split[1]
+                data = (x[0], company.lower().replace('plc.', '').replace('plc', '').replace('.', ''))
+                stocks.append(data)
+        except Exception as e:
+                print("Exception", e)
+        finally:
+            if(mydb):
+                mycursor.close()
+                mydb.close()
 #         mycursor.close()
 #         mydb.close()
         return stocks

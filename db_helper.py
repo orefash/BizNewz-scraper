@@ -1,29 +1,40 @@
 from flask import Flask, jsonify, flash, redirect, render_template, url_for
 from nairametrics_parser import Nairametrics
 from punch_parser import PunchNG
-from db_config import mydb
+from db_config import mysql_connect, postgres_connect
 from datetime import date
 import pymysql
+import psycopg2.extras
 
 
 
 
 def get_sources():
+    mydb = None
+    cur = None
     try:
-        
-        cur = mydb.cursor(dictionary=True)
+        mydb = postgres_connect()
+        cur = mydb.cursor()
         cur.execute("SELECT DISTINCT(source) from news_articles")
         rows = cur.fetchall()
-        resp = jsonify(rows)
-        resp.status_code = 200
+        resp = rows
+        # resp.status_code = 200
         return resp
     except Exception as e:
         print("Exception", e)
+        return []
+    finally:
+        if mydb is not None:
+            cur.close()
+            mydb.close()
 
 def get_article_data():
-
+    
+    mydb = None
+    cur = None
     try:
-        cur = mydb.cursor(dictionary=True)
+        mydb = postgres_connect()
+        cur = mydb.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
         cur.execute("SELECT * from news_articles")
         rows = cur.fetchall()
         resp = rows
@@ -31,6 +42,10 @@ def get_article_data():
     except Exception as e:
         print("Exception", e)
         return []
+    finally:
+        if mydb is not None:
+            cur.close()
+            mydb.close()
 
 
 def get_articles(source, dateFrom, dateTo):
@@ -52,9 +67,11 @@ def get_articles(source, dateFrom, dateTo):
 
     query = "{base_query} {source_query} {date_query} ORDER BY publish_date DESC".format(base_query=base_query, source_query=source_query, date_query=date_query)
        
-
+    mydb = None
+    cur = None
     try:
-        cur = mydb.cursor(dictionary=True)
+        mydb = postgres_connect()
+        cur = mydb.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
         cur.execute(query)
         rows = cur.fetchall()
         resp = rows
@@ -62,3 +79,7 @@ def get_articles(source, dateFrom, dateTo):
     except Exception as e:
         print("Exception", e)
         return []
+    finally:
+        if mydb is not None:
+            cur.close()
+            mydb.close()
