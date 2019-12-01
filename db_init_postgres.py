@@ -32,6 +32,34 @@ def init_news_table():
             mydb.close()
 
 
+
+def init_msg_table():
+    mydb = None
+    cur = None
+    try:
+        mydb = postgres_connect()
+        cur = mydb.cursor()
+        cur.execute('''CREATE TABLE user_msgs (
+  id SERIAL,
+  uname varchar(300) NOT NULL,
+  uemail varchar(300) DEFAULT NULL,
+  umessage text,
+  entry_date date DEFAULT NULL,
+  PRIMARY KEY (id)
+)''')
+        mydb.commit()
+
+        print ("Msg table created")
+
+    except Exception as e:
+        print("Exception", e)
+    finally:
+        if(mydb):
+            cur.close()
+            mydb.close()
+
+
+
 def init_stock_table():
     mydb = None
     cur = None
@@ -81,5 +109,6 @@ def test_db():
 
 if __name__ == '__main__':
     # test_db()
-    init_news_table()
-    init_stock_table()
+    # init_news_table()
+    # init_stock_table()
+    init_msg_table()

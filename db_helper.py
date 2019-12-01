@@ -65,7 +65,7 @@ def get_articles(source, dateFrom, dateTo):
 
         date_query = " AND publish_date between '{dateFrom}' and '{dateTo}'".format(dateFrom=dateFrom, dateTo=dateTo)
 
-    query = "{base_query} {source_query} {date_query} ORDER BY publish_date DESC".format(base_query=base_query, source_query=source_query, date_query=date_query)
+    query = "{base_query} {source_query} {date_query} ORDER BY publish_date DESC LIMIT 30".format(base_query=base_query, source_query=source_query, date_query=date_query)
        
     mydb = None
     cur = None
@@ -73,6 +73,32 @@ def get_articles(source, dateFrom, dateTo):
         mydb = postgres_connect()
         cur = mydb.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
         cur.execute(query)
+        rows = cur.fetchall()
+        resp = rows
+        return resp
+    except Exception as e:
+        print("Exception", e)
+        return []
+    finally:
+        if mydb is not None:
+            cur.close()
+            mydb.close()
+
+
+
+def search_articles(qs):
+
+    base_query = "SELECT * from news_articles WHERE title ~* '\y{qs}\y'  ORDER BY publish_date DESC LIMIT 30".format(qs=qs)
+
+    # base_query = "SELECT * from news_articles WHERE strpos('{sq}', title) > 0  OR strpos('{sq}', content) > 0  ORDER BY publish_date DESC LIMIT 30".format(qs=qs)
+    
+      
+    mydb = None
+    cur = None
+    try:
+        mydb = postgres_connect()
+        cur = mydb.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
+        cur.execute(base_query)
         rows = cur.fetchall()
         resp = rows
         return resp

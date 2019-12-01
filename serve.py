@@ -34,16 +34,23 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/articles', methods=['GET'])
-def get_articles():
+# @app.route('/articles', methods=['GET'])
+# def get_articles():
     
-    from db_helper import get_article_data
-    resp = get_article_data()
+#     from db_helper import get_article_data
+#     resp = get_article_data()
 
-    return jsonify(resp)
+#     return jsonify(resp)
 
+@app.route('/send_msg', methods=['POST'])
+def send_msg():
+    
+    # from db_helper import get_article_data
+    print(request.form)
 
+    return "Sent"
 
+@app.route('/articles', methods=['GET'])
 @app.route('/articles/', methods=['GET'])
 def get_m_articles():
 
@@ -55,6 +62,18 @@ def get_m_articles():
     resp = get_articles(source, dateFrom, dateTo)
 
     return jsonify(resp)
+
+
+@app.route('/articles/search', methods=['GET'])
+def search_articles():
+
+    qs = request.args.get('qs')
+    
+    from db_helper import search_articles
+    resp = search_articles(qs)
+
+    return jsonify(resp)
+
 
 @app.route('/articles/sources', methods=['GET'])
 def get_sources():
