@@ -46,12 +46,13 @@ def home():
 def send_msg():
     
     # from db_helper import get_article_data
-    print(request.form)
+    print(request.json)
+    print(request)
 
-    return "Sent"
+    return "t : Succcess"
 
 @app.route('/articles', methods=['GET'])
-@app.route('/articles/', methods=['GET'])
+# @app.route('/articles/', methods=['GET'])
 def get_m_articles():
 
     source = request.args.get('source')
