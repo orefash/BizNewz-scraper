@@ -1378,12 +1378,12 @@ class _FeedParserMixin:
 
     def _start_dc_publisher(self, attrsD):
         self.push('publisher', 1)
-    _start_webmaster = _start_dc_publisher
+    _start_webmain = _start_dc_publisher
 
     def _end_dc_publisher(self):
         self.pop('publisher')
         self._sync_author_detail('publisher')
-    _end_webmaster = _end_dc_publisher
+    _end_webmain = _end_dc_publisher
 
     def _start_dcterms_valid(self, attrsD):
         self.push('validity', 1)
