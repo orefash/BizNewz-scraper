@@ -14,3 +14,6 @@
 * Beautiful Soup
 * PostgresSql
 * Heroku
+
+## Coming soon
+Display news article on live website at https://biznewzapi.herokuapp.com/
