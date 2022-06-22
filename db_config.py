@@ -24,10 +24,10 @@ def postgres_connect():
     # )
 
     conn = psycopg2.connect(
-        host="ec2-54-75-245-196.eu-west-1.compute.amazonaws.com",
-        database="db2ap032l7mp3t",
-         user="jazzyzfqzynrrx",
-          password="670a46230b9e682e3afafb134bf16421c01acb4f2d05183f0018a97fbc0d4724"
+        host="DB-HOST",
+        database="DB-NAME
+         user="DB-USER",
+          password="DB-PASS"
     )
 
     return conn
