@@ -1,7 +1,8 @@
 # BizNewz
  Daily Nigerian Business news from popular news sites.
  Scraped articles from News sites daily and stored in db.
- <p>try it out: https://biznewzapi.herokuapp.com/articles</p>
+ <p>Api at: https://biznewz-service.herokuapp.com/articles</p>
+ <p>Website at: https://biznewz-web.vercel.app/</p>
 
 ## Features
 * News Articles from popular Nigerian Business news sites
@@ -11,9 +12,11 @@
 * Python
 * Flask 
 * Html, JQuery
-* Beautiful Soup
+* Beautiful Soup 
 * PostgresSql
 * Heroku
 
-## Coming soon
-Display news article on live website at https://biznewzapi.herokuapp.com/
+## Todos
+* Remove existing api(limit to only scraping)
+* Fix api to resume scraping
+* Include delete functionality to remove stale articles from the db
