@@ -5,7 +5,7 @@
  <p>Website at: https://biznewz-web.vercel.app/</p>
 
 ## Features
-* News Articles from popular Nigerian Business news sites
+* News Articles from popular Nigerian Business news sites (PunchNG and Nairametrics currently)
 
  
 ## Built with
@@ -18,5 +18,6 @@
 
 ## Todos
 * Remove existing api(limit to only scraping)
-* Fix api to resume scraping
+* Fix app to resume scraping
 * Include delete functionality to remove stale articles from the db
+* Expand news sources
