@@ -15,7 +15,7 @@ gunicorn==20.0.0
 itsdangerous==1.1.0
 Jinja2==2.8
 lazy-object-proxy==1.4.3
-Mako==1.1.0
+Mako==1.2.2
 MarkupSafe==1.1.1
 mysql-connector-python==8.0.18
 protobuf==3.10.0
