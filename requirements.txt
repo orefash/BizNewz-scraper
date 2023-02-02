@@ -33,5 +33,5 @@ requests==2.11.1
 six==1.13.0
 SQLAlchemy==1.0.13
 tzlocal==2.0.0
-Werkzeug==0.11.11
+Werkzeug==0.15.5
 wrapt==1.11.2
